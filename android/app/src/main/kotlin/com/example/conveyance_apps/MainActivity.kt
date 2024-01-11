@@ -1,4 +1,4 @@
-package com.example.conveyance_apps
+package com.syncwithadifens.conveyance_apps
 
 import io.flutter.embedding.android.FlutterActivity
 
