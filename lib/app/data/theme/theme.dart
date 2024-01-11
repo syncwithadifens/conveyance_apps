@@ -7,7 +7,8 @@ TextStyle subtitleText =
     GoogleFonts.inconsolata(fontSize: 18, fontWeight: FontWeight.w400);
 TextStyle bodyText =
     GoogleFonts.inconsolata(fontSize: 14, fontWeight: FontWeight.w500);
-
+Color whiteColor = Colors.white;
+Color blackColor = Colors.black;
 Color redColor = const Color(0xffBF3131);
 Color greenColor = const Color(0xff88AB8E);
 Color primaryColor = const Color(0xff756AB6);
