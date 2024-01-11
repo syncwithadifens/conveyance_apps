@@ -30,10 +30,25 @@ class LoginView extends GetView<LoginController> {
                   fit: BoxFit.cover,
                   imageUrl:
                       "https://img.freepik.com/free-vector/hand-drawn-flat-design-business-communication-concept_52683-77453.jpg",
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: Get.width,
+                    height: Get.height * 0.5,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.cover),
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                    ),
+                  ),
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       CircularProgressIndicator(
                           value: downloadProgress.progress),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 CustomTextInput(
                   controller: controller.emailCtrl,

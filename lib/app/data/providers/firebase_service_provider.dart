@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -13,6 +14,7 @@ class FirebaseServiceProvider extends GetConnect {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
   String? avatar;
+  GetStorage box = GetStorage('authentication');
   // @override
   // void onInit() {
   //   httpClient.baseUrl = 'YOUR-API-URL';
@@ -66,21 +68,24 @@ class FirebaseServiceProvider extends GetConnect {
       final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
+      // NOTE: user is logged
+      box.write("isLogged", true);
+
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
-      print('errorCode: ${e.code}');
       if (e.code == 'user-not-found') {
         debugPrint('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         debugPrint('Wrong password provided for that user.');
       }
     } catch (e) {
-      print('error: $e');
+      debugPrint('error: $e');
     }
     return null;
   }
 
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
+    box.write('isLogged', false);
   }
 }
