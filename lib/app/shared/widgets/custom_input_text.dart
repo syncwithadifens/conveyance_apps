@@ -5,7 +5,9 @@ import '../../data/theme/theme.dart';
 class CustomTextInput extends StatelessWidget {
   final String hintText;
   final Widget? icon;
-  const CustomTextInput({super.key, required this.hintText, this.icon});
+  final TextEditingController? controller;
+  const CustomTextInput(
+      {super.key, required this.hintText, this.icon, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,7 @@ class CustomTextInput extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
             filled: true,
             fillColor: whiteColor,
@@ -21,7 +24,12 @@ class CustomTextInput extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             suffixIcon: icon),
-        onChanged: (value) {},
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
       ),
     );
   }
