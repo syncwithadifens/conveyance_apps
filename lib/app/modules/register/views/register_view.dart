@@ -1,29 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conveyance_apps/app/data/theme/theme.dart';
-import 'package:flutter/gestures.dart';
+import 'package:conveyance_apps/app/modules/register/views/register_profile_image_view.dart';
+import 'package:conveyance_apps/app/shared/widgets/custom_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_pages.dart';
-import '../../../shared/widgets/custom_input_text.dart';
-import '../controllers/login_controller.dart';
+import '../controllers/register_controller.dart';
 
-class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+class RegisterView extends GetView<RegisterController> {
+  const RegisterView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('LoginView'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: Get.height,
-          width: Get.width,
-          color: primaryColor,
+        appBar: AppBar(
+          title: const Text('RegisterView'),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
           child: Form(
-            key: controller.loginKey,
+            key: controller.registerKey,
             child: Column(
               children: [
                 CachedNetworkImage(
@@ -36,61 +31,52 @@ class LoginView extends GetView<LoginController> {
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
                 CustomTextInput(
-                  controller: controller.emailCtrl,
-                  hintText: 'Email',
+                  hintText: 'Full Name',
+                  controller: controller.nameCtrl,
                   action: TextInputAction.next,
                 ),
                 CustomTextInput(
-                  controller: controller.passwordCtrl,
-                  hintText: 'Password',
-                  action: TextInputAction.done,
-                  icon: const Icon(Icons.visibility),
+                  hintText: 'Email',
+                  controller: controller.emailCtrl,
+                  action: TextInputAction.next,
                 ),
-                RichText(
-                  text: TextSpan(
-                      text: 'Don\'t have an account yet?',
-                      style: bodyText,
-                      children: [
-                        TextSpan(
-                            text: ' Sign Up',
-                            style: bodyText.copyWith(color: thirdColor),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Get.toNamed(Routes.REGISTER)),
-                      ]),
+                CustomTextInput(
+                  hintText: 'Password',
+                  icon: const Icon(Icons.visibility),
+                  controller: controller.passwordCtrl,
+                  action: TextInputAction.done,
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
+                  width: Get.width,
                   height: 50,
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(left: 25, right: 25, top: 40),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: secondaryColor,
+                      backgroundColor: thirdColor,
                     ),
                     onPressed: () {
-                      if (controller.loginKey.currentState!.validate()) {
+                      if (controller.registerKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Processing Data')),
                         );
+                        Get.to(() => const RegisterProfileImageView());
                       }
-                      debugPrint(controller.emailCtrl.text);
-                      debugPrint(controller.passwordCtrl.text);
                     },
                     child: Text(
-                      "Sign In",
-                      style: titleText.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: thirdColor,
-                          fontSize: 18),
+                      "Next",
+                      style: subtitleText.copyWith(
+                          color: whiteColor, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
