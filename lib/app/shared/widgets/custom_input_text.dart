@@ -1,6 +1,4 @@
-import 'package:conveyance_apps/app/modules/register/controllers/register_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../data/theme/theme.dart';
 
@@ -10,25 +8,25 @@ class CustomTextInput extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputAction? action;
   final int minLength;
-  const CustomTextInput({
-    super.key,
-    required this.hintText,
-    this.icon,
-    this.controller,
-    this.action,
-    this.minLength = 0,
-  });
+  final bool isHidden;
+  const CustomTextInput(
+      {super.key,
+      required this.hintText,
+      this.icon,
+      this.controller,
+      this.action,
+      this.minLength = 0,
+      this.isHidden = false});
 
   @override
   Widget build(BuildContext context) {
-    final registerCtrl = Get.find<RegisterController>();
     return Container(
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(),
       child: TextFormField(
         controller: controller,
         textInputAction: action,
-        obscureText: registerCtrl.showPassword.value,
+        obscureText: isHidden,
         decoration: InputDecoration(
             filled: true,
             fillColor: whiteColor,

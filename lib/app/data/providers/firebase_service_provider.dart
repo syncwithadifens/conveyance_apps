@@ -21,7 +21,7 @@ class FirebaseServiceProvider extends GetConnect {
   Future<User?> signUpWithEmail(
       String email, String password, String name, XFile? profilePhoto) async {
     try {
-      // NOTE: firebase authentication with email
+      // NOTE: firebase registration with email
       final userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
@@ -60,17 +60,24 @@ class FirebaseServiceProvider extends GetConnect {
     return null;
   }
 
-  Future signInWithEmail(String email, String password) async {
+  Future<User?> signInWithEmail(String email, String password) async {
     try {
-      await FirebaseAuth.instance
+      // NOTE: firebase login with email
+      final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
+      return userCredential.user;
     } on FirebaseAuthException catch (e) {
+      print('errorCode: ${e.code}');
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        debugPrint('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        debugPrint('Wrong password provided for that user.');
       }
+    } catch (e) {
+      print('error: $e');
     }
+    return null;
   }
 
   Future signOut() async {

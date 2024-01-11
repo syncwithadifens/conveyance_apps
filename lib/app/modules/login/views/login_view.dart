@@ -40,12 +40,19 @@ class LoginView extends GetView<LoginController> {
                   hintText: 'Email',
                   action: TextInputAction.next,
                 ),
-                CustomTextInput(
-                  controller: controller.passwordCtrl,
-                  hintText: 'Password',
-                  action: TextInputAction.done,
-                  icon: const Icon(Icons.visibility),
-                ),
+                Obx(() => CustomTextInput(
+                      controller: controller.passwordCtrl,
+                      hintText: 'Password',
+                      action: TextInputAction.done,
+                      icon: controller.showPassword.value
+                          ? GestureDetector(
+                              onTap: () => controller.showPassword.toggle(),
+                              child: const Icon(Icons.visibility))
+                          : GestureDetector(
+                              onTap: () => controller.showPassword.toggle(),
+                              child: const Icon(Icons.visibility_off)),
+                      isHidden: controller.showPassword.value,
+                    )),
                 RichText(
                   text: TextSpan(
                       text: 'Don\'t have an account yet?',
@@ -70,12 +77,9 @@ class LoginView extends GetView<LoginController> {
                       if (controller.loginKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
+                        controller.signIn().then((value) =>
+                            value == true ? Get.toNamed(Routes.HOME) : null);
                       }
-                      debugPrint(controller.emailCtrl.text);
-                      debugPrint(controller.passwordCtrl.text);
                     },
                     child: Text(
                       "Sign In",

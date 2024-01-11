@@ -52,6 +52,7 @@ class RegisterView extends GetView<RegisterController> {
                       controller: controller.passwordCtrl,
                       action: TextInputAction.done,
                       minLength: 8,
+                      isHidden: controller.showPassword.value,
                     )),
                 const SizedBox(
                   height: 20,
