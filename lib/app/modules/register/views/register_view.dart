@@ -40,12 +40,19 @@ class RegisterView extends GetView<RegisterController> {
                   controller: controller.emailCtrl,
                   action: TextInputAction.next,
                 ),
-                CustomTextInput(
-                  hintText: 'Password',
-                  icon: const Icon(Icons.visibility),
-                  controller: controller.passwordCtrl,
-                  action: TextInputAction.done,
-                ),
+                Obx(() => CustomTextInput(
+                      hintText: 'Password',
+                      icon: controller.showPassword.value
+                          ? GestureDetector(
+                              onTap: () => controller.showPassword.toggle(),
+                              child: const Icon(Icons.visibility))
+                          : GestureDetector(
+                              onTap: () => controller.showPassword.toggle(),
+                              child: const Icon(Icons.visibility_off)),
+                      controller: controller.passwordCtrl,
+                      action: TextInputAction.done,
+                      minLength: 8,
+                    )),
                 const SizedBox(
                   height: 20,
                 ),
@@ -61,9 +68,6 @@ class RegisterView extends GetView<RegisterController> {
                       if (controller.registerKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
                         Get.to(() => const RegisterProfileImageView());
                       }
                     },

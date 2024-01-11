@@ -77,9 +77,9 @@ class RegisterProfileImageView extends StatelessWidget {
                   backgroundColor: thirdColor,
                 ),
                 onPressed: () {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('Submit')));
-                  Get.close(2);
+                  registerCtrl
+                      .signUp()
+                      .then((value) => value == true ? Get.close(2) : null);
                 },
                 child: Text(
                   "Submit",

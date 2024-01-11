@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "124495993102",
+    "project_id": "conveyance-apps",
+    "storage_bucket": "conveyance-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124495993102:android:65b770f00a766c50141f5f",
+        "android_client_info": {
+          "package_name": "com.syncwithadifens.conveyance_apps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXg2hggLRClk6MaX-aXn-zD00UMa7D_kw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
