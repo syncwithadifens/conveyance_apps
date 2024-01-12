@@ -10,7 +10,7 @@ class RegisterController extends GetxController {
   var passwordCtrl = TextEditingController();
   var selectedImg = Rx<XFile?>(null);
   FirebaseServiceProvider firebaseServiceProvider = FirebaseServiceProvider();
-  var showPassword = false.obs;
+  var showPassword = true.obs;
 
   Future<void> takeImgFromGallery() async {
     selectedImg.value =

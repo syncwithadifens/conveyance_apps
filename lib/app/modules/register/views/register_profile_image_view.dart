@@ -12,8 +12,7 @@ class RegisterProfileImageView extends StatelessWidget {
     final registerCtrl = Get.find<RegisterController>();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('RegisterProfileImageView'),
-          centerTitle: true,
+          title: const Text('Upload'),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
