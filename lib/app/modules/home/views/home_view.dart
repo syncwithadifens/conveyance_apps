@@ -1,4 +1,4 @@
-import 'package:conveyance_apps/app/data/providers/firebase_service_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conveyance_apps/app/data/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,28 +11,97 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeView'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blueGrey,
-          ),
-          onPressed: () {
-            FirebaseServiceProvider firebaseServiceProvider =
-                FirebaseServiceProvider();
-            firebaseServiceProvider
-                .signOut()
-                .then((value) => Get.offNamed(Routes.LOGIN));
-          },
-          child: Text(
-            "Log Out",
-            style: TextStyle(color: whiteColor),
-          ),
+        backgroundColor: secondaryColor,
+        appBar: AppBar(
+          title: const Text('People'),
+          actions: [
+            IconButton(
+                onPressed: () => controller
+                    .logOut()
+                    .then((value) => Get.offNamed(Routes.LOGIN)),
+                icon: const Icon(Icons.exit_to_app))
+          ],
+          backgroundColor: blackColor,
+          foregroundColor: whiteColor,
         ),
-      ),
+        body: _buildListUser());
+  }
+
+  Widget _buildListUser() {
+    return StreamBuilder(
+      stream:
+          controller.firebaseServiceProvider.db.collection('users').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Text("Error");
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text("Loading");
+        }
+        return ListView(
+          children: snapshot.data != null
+              ? snapshot.data!.docs.map((e) {
+                  final data = e.data();
+                  if (controller
+                          .firebaseServiceProvider.auth.currentUser!.email !=
+                      data['email']) {
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Map<String, dynamic> userData = {
+                              'uid': data['uid'],
+                              'name': data['name'],
+                              'email': data['email']
+                            };
+                            Get.toNamed(Routes.CHAT, arguments: userData);
+                          },
+                          child: ListTile(
+                            textColor: whiteColor,
+                            leading: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: data['profile_photo'] ??
+                                  "https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              ),
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                            title: Text(data['email']),
+                            subtitle: Text(data['name']),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Container();
+                  }
+                }).toList()
+              : [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 200),
+                    child: Center(
+                      child: Text(
+                        "Belum ada user lain",
+                        style: titleText.copyWith(color: whiteColor),
+                      ),
+                    ),
+                  ),
+                ],
+        );
+      },
     );
   }
 }

@@ -1,23 +1,11 @@
 import 'package:get/get.dart';
 
+import '../../../data/providers/firebase_service_provider.dart';
+
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  FirebaseServiceProvider firebaseServiceProvider = FirebaseServiceProvider();
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  Future<void> logOut() async {
+    await firebaseServiceProvider.signOut();
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
