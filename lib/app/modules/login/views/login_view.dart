@@ -14,8 +14,7 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LoginView'),
-        centerTitle: true,
+        title: const Text('LOGIN'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -68,6 +67,9 @@ class LoginView extends GetView<LoginController> {
                               child: const Icon(Icons.visibility_off)),
                       isHidden: controller.showPassword.value,
                     )),
+                const SizedBox(
+                  height: 15,
+                ),
                 RichText(
                   text: TextSpan(
                       text: 'Don\'t have an account yet?',
@@ -83,7 +85,7 @@ class LoginView extends GetView<LoginController> {
                 Container(
                   height: 50,
                   width: double.infinity,
-                  margin: const EdgeInsets.only(left: 25, right: 25, top: 40),
+                  margin: const EdgeInsets.only(left: 25, right: 25, top: 30),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: secondaryColor,
@@ -93,7 +95,7 @@ class LoginView extends GetView<LoginController> {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
                         controller.signIn().then((value) =>
-                            value == true ? Get.toNamed(Routes.HOME) : null);
+                            value == true ? Get.offNamed(Routes.HOME) : null);
                       }
                     },
                     child: Text(
