@@ -44,6 +44,7 @@ class FirebaseServiceProvider extends GetConnect {
 
       // NOTE: add user to database
       await db.collection('users').doc(userCredential.user!.uid).set({
+        'uid': userCredential.user!.uid,
         'name': name,
         'email': userCredential.user!.email,
         'profile_photo': avatar
