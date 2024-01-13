@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conveyance_apps/app/data/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -50,13 +51,21 @@ class FirebaseServiceProvider extends GetConnect {
         'profile_photo': avatar
       });
 
+      Get.snackbar('Congrats!', 'Your data is registered',
+          backgroundColor: greenColor,
+          snackPosition: SnackPosition.BOTTOM,
+          margin: const EdgeInsets.all(8));
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        debugPrint('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        debugPrint('The account already exists for that email.');
-      }
+      // if (e.code == 'weak-password') {
+      //   debugPrint('The password provided is too weak.');
+      // } else if (e.code == 'email-already-in-use') {
+      //   debugPrint('The account already exists for that email.');
+      // }
+      Get.snackbar('Error', e.code,
+          backgroundColor: redColor,
+          snackPosition: SnackPosition.BOTTOM,
+          margin: const EdgeInsets.all(8));
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -72,13 +81,21 @@ class FirebaseServiceProvider extends GetConnect {
       // NOTE: user is logged
       box.write("isLogged", true);
 
+      Get.snackbar('Success', 'Welcome to home',
+          backgroundColor: greenColor,
+          snackPosition: SnackPosition.BOTTOM,
+          margin: const EdgeInsets.all(8));
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        debugPrint('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        debugPrint('Wrong password provided for that user.');
-      }
+      // if (e.code == 'user-not-found') {
+      //   debugPrint('No user found for that email.');
+      // } else if (e.code == 'wrong-password') {
+      //   debugPrint('Wrong password provided for that user.');
+      // }
+      Get.snackbar('Error', e.code,
+          backgroundColor: redColor,
+          snackPosition: SnackPosition.BOTTOM,
+          margin: const EdgeInsets.all(8));
     } catch (e) {
       debugPrint('error: $e');
     }
