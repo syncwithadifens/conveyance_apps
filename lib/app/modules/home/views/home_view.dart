@@ -52,7 +52,8 @@ class HomeView extends GetView<HomeController> {
                             Map<String, dynamic> userData = {
                               'uid': data['uid'],
                               'name': data['name'],
-                              'email': data['email']
+                              'email': data['email'],
+                              'profile_photo': data['profile_photo'],
                             };
                             Get.toNamed(Routes.CHAT, arguments: userData);
                           },
