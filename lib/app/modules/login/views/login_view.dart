@@ -82,31 +82,39 @@ class LoginView extends GetView<LoginController> {
                               ..onTap = () => Get.toNamed(Routes.REGISTER)),
                       ]),
                 ),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(left: 25, right: 25, top: 30),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: secondaryColor,
-                    ),
-                    onPressed: () {
-                      if (controller.loginKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                        controller.signIn().then((value) =>
-                            value == true ? Get.offNamed(Routes.HOME) : null);
-                      }
-                    },
-                    child: Text(
-                      "Sign In",
-                      style: titleText.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: thirdColor,
-                          fontSize: 18),
-                    ),
-                  ),
-                ),
+                Obx(() => Container(
+                      height: 50,
+                      width: double.infinity,
+                      margin:
+                          const EdgeInsets.only(left: 25, right: 25, top: 30),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: secondaryColor,
+                        ),
+                        onPressed: () {
+                          if (controller.loginKey.currentState!.validate()) {
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            controller.signIn().then((value) => value == true
+                                ? Get.offNamed(Routes.HOME)
+                                : null);
+                          }
+                        },
+                        child: controller.isLoading.value
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: thirdColor,
+                                ),
+                              )
+                            : Text(
+                                "Sign In",
+                                style: titleText.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: thirdColor,
+                                    fontSize: 18),
+                              ),
+                      ),
+                    )),
               ],
             ),
           ),

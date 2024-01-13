@@ -11,6 +11,7 @@ class RegisterController extends GetxController {
   var selectedImg = Rx<XFile?>(null);
   FirebaseServiceProvider firebaseServiceProvider = FirebaseServiceProvider();
   var showPassword = true.obs;
+  var isLoading = false.obs;
 
   Future<void> takeImgFromGallery() async {
     selectedImg.value =
@@ -18,12 +19,15 @@ class RegisterController extends GetxController {
   }
 
   Future<bool> signUp() async {
+    isLoading.value = true;
     final result = await firebaseServiceProvider.signUpWithEmail(
         emailCtrl.text, passwordCtrl.text, nameCtrl.text, selectedImg.value);
 
     if (result != null) {
+      isLoading.value = false;
       return true;
     } else {
+      isLoading.value = false;
       return false;
     }
   }

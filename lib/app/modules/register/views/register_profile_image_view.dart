@@ -67,26 +67,30 @@ class RegisterProfileImageView extends StatelessWidget {
                     ],
                   ),
                 )),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 25),
-              width: Get.width,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: thirdColor,
-                ),
-                onPressed: () {
-                  registerCtrl
-                      .signUp()
-                      .then((value) => value == true ? Get.close(2) : null);
-                },
-                child: Text(
-                  "Submit",
-                  style: subtitleText.copyWith(
-                      color: whiteColor, fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
+            Obx(() => Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
+                  width: Get.width,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: thirdColor,
+                    ),
+                    onPressed: () {
+                      registerCtrl
+                          .signUp()
+                          .then((value) => value == true ? Get.close(2) : null);
+                    },
+                    child: registerCtrl.isLoading.value
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Text(
+                            "Submit",
+                            style: subtitleText.copyWith(
+                                color: whiteColor, fontWeight: FontWeight.w700),
+                          ),
+                  ),
+                )),
           ],
         ));
   }
